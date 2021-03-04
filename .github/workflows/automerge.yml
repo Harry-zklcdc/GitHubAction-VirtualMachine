@@ -6,16 +6,14 @@ on:
   workflow_dispatch:
 
 jobs:
-  repo-sync:
+  update_external_airflow_fork:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-      with:
-        persist-credentials: false
-    - name: repo-sync
-      uses: repo-sync/github-sync@v2
-      with:
-        source_repo: "RealKoolisw/VirtualMachine-GithubAction"
-        source_branch: "main"
-        destination_branch: "main"
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: TobKed/github-forks-sync-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          upstream_repository: RealKoolisw/VirtualMachine-GithubAction
+          upstream_branch: main
+          target_branch: main
+          force: true
+          tags: true
