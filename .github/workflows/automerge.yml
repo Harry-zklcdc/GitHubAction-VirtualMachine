@@ -15,4 +15,3 @@ jobs:
           owner: RealKoolisw # fork 上游项目 owner
           head: master # fork 上游项目需要同步的分支
           base: master # 需要同步到本项目的目标分支
-          auto_approve: true
