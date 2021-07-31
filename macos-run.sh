@@ -26,10 +26,10 @@ sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resourc
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
 
 #install NPS
-cd /Users/koolisw/Desktop/
-wget https://github.com/ehang-io/nps/releases/download/v0.26.10/darwin_amd64_client.tar.gz
-tar -xzf darwin_amd64_client.tar.gz && rm -rf conf darwin_amd64_client.tar.gz
-chmod +x ./npc
+sudo cd /Users/koolisw/Desktop/
+sudo wget https://github.com/ehang-io/nps/releases/download/v0.26.10/darwin_amd64_client.tar.gz
+sudo tar -xzf darwin_amd64_client.tar.gz && rm -rf conf darwin_amd64_client.tar.gz
+sudo chmod +x ./npc
 
 #configure ngrok and start it
 sudo ./npc install -server=$5 -vkey=$3 -type=tcp
