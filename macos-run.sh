@@ -32,17 +32,7 @@ sudo tar -xzf darwin_amd64_client.tar.gz
 sudo chmod +x ./npc
 
 #configure ngrok and start it
-echo "Default"
-echo $1
-echo $2
-echo $3
-echo $4
-echo $5
-echo "Modified"
-echo $MAC_USER_PASSWORD
-echo $VNC_PASSWORD
-echo $NPS_AUTH_TOKEN
-echo $MAC_REALNAME
-echo $NPS_ADDRESS
+sudo ./npc install -server=$5 -vkey=$3 -type=tcp
 sudo rm -rf /Users/koolisw/Desktop/conf /Users/koolisw/Desktop/darwin_amd64_client.tar.gz
-sudo ./npc -server=$5 -vkey=$3 -type=tcp
+sudo npc start
+
