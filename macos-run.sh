@@ -1,4 +1,9 @@
 #macos-run.sh MAC_USER_PASSWORD VNC_PASSWORD NPS_AUTH_TOKEN MAC_REALNAME NPS_ADDRESS
+echo $1
+echo $2
+echo $3
+echo $4
+echo $5
 
 #disable spotlight indexing
 sudo mdutil -i off -a
