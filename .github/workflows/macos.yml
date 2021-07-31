@@ -13,12 +13,12 @@ jobs:
     - uses: actions/checkout@v2
     - name: Setting Up the MacOS Environment
       env:
-        NPS_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+        NPS_AUTH_TOKEN: ${{ secrets.NPS_AUTH_TOKEN }}
         NPS_ADDRESS: ${{ secrets.NPS_ADDRESS }}
         MAC_USER_PASSWORD: ${{ secrets.MAC_USER_PASSWORD }}
         VNC_PASSWORD: ${{ secrets.VNC_PASSWORD }}
         MAC_REALNAME: ${{ secrets.MAC_REALNAME }}
-      run: source macos-run.sh "$MAC_USER_PASSWORD" "$VNC_PASSWORD" "$NGROK_AUTH_TOKEN" "$MAC_REALNAME" "$NPS_ADDRESS"
+      run: source macos-run.sh "$MAC_USER_PASSWORD" "$VNC_PASSWORD" "$NPS_AUTH_TOKEN" "$MAC_REALNAME" "$NPS_ADDRESS"
     - name: Connecting MacOS with NPS to VNC Server
       run: sudo cat /var/log/npc.log
     - name: Keep Running MacOS System and keepAlive
