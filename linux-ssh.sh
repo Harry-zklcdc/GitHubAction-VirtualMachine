@@ -36,5 +36,4 @@ echo "### Update user: $USER password ###"
 echo -e "$LINUX_USER_PASSWORD\n$LINUX_USER_PASSWORD" | sudo passwd "$USER"
 
 echo "### Start NPS proxy for 22 port ###"
-./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
-npc start
+./npc -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
