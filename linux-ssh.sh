@@ -38,4 +38,4 @@ echo -e "$LINUX_USER_PASSWORD\n$LINUX_USER_PASSWORD" | sudo passwd "$USER"
 echo "### Start NPS proxy for 22 port ###"
 sudo ./npc nat -stun_addr=stun.stunprotocol.org:3478
 sudo ./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
-npc start
+sudo npc start
