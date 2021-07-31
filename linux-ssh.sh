@@ -8,8 +8,13 @@ echo "$LINUX_USERNAME:$LINUX_USER_PASSWORD" | sudo chpasswd
 sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
 sudo hostname $LINUX_MACHINE_NAME
 
-if [[ -z "$NGROK_AUTH_TOKEN" ]]; then
-  echo "Please set 'NGROK_AUTH_TOKEN'"
+if [[ -z "$NPS_AUTH_TOKEN" ]]; then
+  echo "Please set 'NPS_AUTH_TOKEN'"
+  exit 2
+fi
+
+if [[ -z "$NPS_ADDRESS" ]]; then
+  echo "Please set 'NPS_ADDRESS'"
   exit 2
 fi
 
@@ -20,30 +25,13 @@ fi
 
 echo "### Install ngrok ###"
 
-wget -q https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip
-unzip ngrok-stable-linux-386.zip
-chmod +x ./ngrok
+wget -q https://github.com/ehang-io/nps/releases/download/v0.26.10/linux_amd64_client.tar.gz
+tar -xzf linux_amd64_client.tar.gz
+chmod +x ./npc
 
 echo "### Update user: $USER password ###"
 echo -e "$LINUX_USER_PASSWORD\n$LINUX_USER_PASSWORD" | sudo passwd "$USER"
 
-echo "### Start ngrok proxy for 22 port ###"
-
-
-rm -f .ngrok.log
-./ngrok authtoken "$NGROK_AUTH_TOKEN"
-./ngrok tcp 22 --log ".ngrok.log" &
-
-sleep 10
-HAS_ERRORS=$(grep "command failed" < .ngrok.log)
-
-if [[ -z "$HAS_ERRORS" ]]; then
-  echo ""
-  echo "=========================================="
-  echo "To connect: $(grep -o -E "tcp://(.+)" < .ngrok.log | sed "s/tcp:\/\//ssh $USER@/" | sed "s/:/ -p /")"
-  echo "or conenct with $(grep -o -E "tcp://(.+)" < .ngrok.log | sed "s/tcp:\/\//ssh (Your Linux Username)@/" | sed "s/:/ -p /")"
-  echo "=========================================="
-else
-  echo "$HAS_ERRORS"
-  exit 4
-fi
+echo "### Start NPS proxy for 22 port ###"
+./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
+npc start
