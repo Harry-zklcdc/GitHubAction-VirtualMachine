@@ -8,6 +8,9 @@ echo "$LINUX_USERNAME:$LINUX_USER_PASSWORD" | sudo chpasswd
 sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
 sudo hostname $LINUX_MACHINE_NAME
 
+echo $NPS_ADDRESS
+echo $NPS_AUTH_TOKEN
+
 if [[ -z "$NPS_AUTH_TOKEN" ]]; then
   echo "Please set 'NPS_AUTH_TOKEN'"
   exit 2
@@ -15,12 +18,12 @@ fi
 
 if [[ -z "$NPS_ADDRESS" ]]; then
   echo "Please set 'NPS_ADDRESS'"
-  exit 2
+  exit 3
 fi
 
 if [[ -z "$LINUX_USER_PASSWORD" ]]; then
   echo "Please set 'LINUX_USER_PASSWORD' for user: $USER"
-  exit 3
+  exit 4
 fi
 
 echo "### Install ngrok ###"
@@ -33,5 +36,5 @@ echo "### Update user: $USER password ###"
 echo -e "$LINUX_USER_PASSWORD\n$LINUX_USER_PASSWORD" | sudo passwd "$USER"
 
 echo "### Start NPS proxy for 22 port ###"
-./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
+./npc install -server=$NPS_ADDRESS -vkey=$NPS_AUTH_TOKEN -type=tcp
 npc start
