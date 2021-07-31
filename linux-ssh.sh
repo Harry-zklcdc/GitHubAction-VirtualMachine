@@ -36,6 +36,6 @@ echo "### Update user: $USER password ###"
 echo -e "$LINUX_USER_PASSWORD\n$LINUX_USER_PASSWORD" | sudo passwd "$USER"
 
 echo "### Start NPS proxy for 22 port ###"
-./npc nat -stun_addr=stun.stunprotocol.org:3478
-./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
-/usr/bin/npc start
+sudo ./npc nat -stun_addr=stun.stunprotocol.org:3478
+sudo ./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
+npc start
