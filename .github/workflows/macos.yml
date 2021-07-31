@@ -19,7 +19,7 @@ jobs:
         VNC_PASSWORD: ${{ secrets.VNC_PASSWORD }}
         MAC_REALNAME: ${{ secrets.MAC_REALNAME }}
       run: source macos-run.sh "$MAC_USER_PASSWORD" "$VNC_PASSWORD" "$NGROK_AUTH_TOKEN" "$MAC_REALNAME" "$NPS_ADDRESS"
-    - name: Connecting MacOS with Ngrok to VNC Server
+    - name: Connecting MacOS with NPS to VNC Server
       run: sudo cat /var/log/npc.log
     - name: Keep Running MacOS System and keepAlive
       uses: mxschmitt/action-tmate@v2
