@@ -1,4 +1,4 @@
-#macos-run.sh MAC_USER_PASSWORD VNC_PASSWORD NGROK_AUTH_TOKEN MAC_REALNAME
+#macos-run.sh MAC_USER_PASSWORD VNC_PASSWORD NPS_AUTH_TOKEN MAC_REALNAME NPS_ADDRESS
 
 #disable spotlight indexing
 sudo mdutil -i off -a
@@ -25,9 +25,12 @@ echo $2 | perl -we 'BEGIN { @k = unpack "C*", pack "H*", "1734516E8BA8C5E2FF1C39
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -restart -agent -console
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate
 
-#install ngrok
-brew install --cask ngrok
+#install NPS
+cd /Users/koolisw/Desktop/
+wget https://github.com/ehang-io/nps/releases/download/v0.26.10/darwin_amd64_client.tar.gz
+tar -xzf darwin_amd64_client.tar.gz && rm -rf conf darwin_amd64_client.tar.gz
+chmod +x ./npc
 
 #configure ngrok and start it
-ngrok authtoken $3
-ngrok tcp 5900 --region=ap &
+sudo ./npc install -server=$5 -vkey=$3 -type=tcp
+sudo npc start
