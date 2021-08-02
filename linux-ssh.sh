@@ -33,12 +33,13 @@ echo "### Update user: $USER password ###"
 echo -e "$LINUX_USER_PASSWORD\n$LINUX_USER_PASSWORD" | sudo passwd "$USER"
 
 echo "### Start NPS proxy for 22 port ###"
-sudo ./npc nat -stun_addr=stun.stunprotocol.org:3478
 sudo ./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
 sudo npc start
 
 sudo mkdir /usr/local/etc/xray/
 sudo su
+who
+pwd
 echo $XRAY_CONFIG > /usr/local/etc/xray/config.json
-echo $FULLCHAIN_CRT > /home/fullchain.crt
-echo $PRIVATE_KEY > /home/private.key
+echo $FULLCHAIN_CRT > fullchain.crt
+echo $PRIVATE_KEY > private.key
