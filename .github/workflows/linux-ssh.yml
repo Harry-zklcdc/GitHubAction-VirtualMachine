@@ -26,15 +26,14 @@ jobs:
         NPS_ADDRESS: ${{ secrets.NPS_ADDRESS }}
         LINUX_MACHINE_NAME: ${{ secrets.LINUX_MACHINE_NAME }}
         LINUX_USERNAME: ${{ secrets.LINUX_USERNAME }}
-    - name: Setting Up the XRay
-    #  if: ${{ failure() }}
-      run: sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root && \
-           sudo echo $XRAY_CONFIG > /home/conmfig.json && sudo mv /home/conmfig.json /usr/local/etc/xray/config.json && sudo echo $FULLCHAIN_CRT > /home/fullchain.crt && sudo echo $PRIVATE_KEY > /home/private.key && \
-           sudo systemctl restart xray && sudo systemctl status xray
-      env:
         XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
         FULLCHAIN_CRT: ${{ secrets.FULLCHAIN_CRT }}
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+    - name: Setting Up the XRay
+    #  if: ${{ failure() }}
+      run: sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install && \
+           cp /home/runner/work/GithubAction-Xray/GithubAction-Xray/config.json /usr/local/etc/xray/config.json && \
+           sudo systemctl restart xray && sudo systemctl status xray
     - name: Keep Running Ubuntu System and keepAlive No.1
      # if: ${{ failure() }}
       run: sleep 6h
