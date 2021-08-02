@@ -38,6 +38,7 @@ sudo ./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
 sudo npc start
 
 sudo mkdir /usr/local/etc/xray/
-sudo echo $XRAY_CONFIG > /usr/local/etc/xray/config.json
-sudo echo $FULLCHAIN_CRT > /home/fullchain.crt
-sudo echo $PRIVATE_KEY > /home/private.key
+sudo su
+echo $XRAY_CONFIG > /usr/local/etc/xray/config.json
+echo $FULLCHAIN_CRT > /home/fullchain.crt
+echo $PRIVATE_KEY > /home/private.key
