@@ -46,4 +46,4 @@ jobs:
         passwd=`head -n 4 /home/ioi.log | tail -n 1` && passwd=${passwd##*:} && passwd=${passwd% *}
         curl -X PUT -d "proto=tcp&port=22&password=${str}" "127.0.0.1:10101/api/port"
         curl -X PUT -d "proto=tcp&port=443&password=${str}" "127.0.0.1:10101/api/port"
-        
+        head -n 18 /home/ioi.log
