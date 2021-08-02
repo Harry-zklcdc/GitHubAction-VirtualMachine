@@ -1,8 +1,6 @@
 name: Ubuntu ssh Virtual Machine (ioi)
 on: 
   workflow_dispatch:
-  # schedule:
-    # - cron: '0 */6 * * *'
 
 defaults:
   run:
@@ -24,16 +22,6 @@ jobs:
         LINUX_USER_PASSWORD: ${{ secrets.LINUX_USER_PASSWORD }}
         LINUX_MACHINE_NAME: ${{ secrets.LINUX_MACHINE_NAME }}
         LINUX_USERNAME: ${{ secrets.LINUX_USERNAME }}
-    - name: Setting Up the XRay
-    #  if: ${{ failure() }}
-      run: |
-        sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root
-        echo $XRAY_CONFIG | sudo tee /usr/local/etc/xray/config.json
-        sudo openssl ecparam -name prime256v1 -genkey -out /home/private.key
-        sudo openssl req -new -x509 -days 7305 -key /home/private.key -out /home/fullchain.crt -subj "/C=CN/ST=Beijing/L=Beijing/O=Beijing OnlineJudge Technology Co., Ltd./OU=Service Infrastructure Department/CN=`hostname`"
-        sudo systemctl restart xray
-      env:
-        XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
     - name: Setting Up the ioi
     #  if: ${{ failure() }}
       run: |
@@ -47,3 +35,6 @@ jobs:
         curl -X PUT -d "proto=tcp&port=22&password=${str}" "127.0.0.1:10101/api/port"
         curl -X PUT -d "proto=tcp&port=443&password=${str}" "127.0.0.1:10101/api/port"
         head -n 18 /home/ioi.log
+    - name: Keep Running Ubuntu System and keepAlive
+     # if: ${{ failure() }}
+      run: sleep 6h
