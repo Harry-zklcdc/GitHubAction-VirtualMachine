@@ -1,13 +1,11 @@
 name: Ubuntu ssh Virtual Machine (NPS)
 on: 
   workflow_dispatch:
-  schedule:
-    - cron: '0 */6 * * *'
+
 defaults:
   run:
-    shell: bash
-    
-    
+    shell: bash 
+
 jobs:
   build:
     runs-on: ubuntu-20.04
@@ -36,16 +34,6 @@ jobs:
       env:
         NPS_AUTH_TOKEN: ${{ secrets.NPS_AUTH_TOKEN }}
         NPS_ADDRESS: ${{ secrets.NPS_ADDRESS }}
-    - name: Setting Up the XRay
-    #  if: ${{ failure() }}
-      run: |
-        sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root
-        echo $XRAY_CONFIG | sudo tee /usr/local/etc/xray/config.json
-        sudo openssl ecparam -name prime256v1 -genkey -out /home/private.key
-        sudo openssl req -new -x509 -days 7305 -key /home/private.key -out /home/fullchain.crt -subj "/C=CN/ST=Beijing/L=Beijing/O=Beijing OnlineJudge Technology Co., Ltd./OU=Service Infrastructure Department/CN=`hostname`"
-        sudo systemctl restart xray
-      env:
-        XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
     - name: Keep Running Ubuntu System and keepAlive
      # if: ${{ failure() }}
       run: sleep 6h
