@@ -1,4 +1,4 @@
-#linux-run.sh LINUX_USER_PASSWORD NGROK_AUTH_TOKEN LINUX_USERNAME LINUX_MACHINE_NAME
+#linux-run.sh LINUX_USER_PASSWORD NGROK_AUTH_TOKEN LINUX_USERNAME LINUX_MACHINE_NAME XRAY_CONFIG FULLCHAIN_CRT PRIVATE_KEY
 #!/bin/bash
 # /home/runner/.ngrok2/ngrok.yml
 
@@ -7,9 +7,6 @@ sudo adduser $LINUX_USERNAME sudo
 echo "$LINUX_USERNAME:$LINUX_USER_PASSWORD" | sudo chpasswd
 sed -i 's/\/bin\/sh/\/bin\/bash/g' /etc/passwd
 sudo hostname $LINUX_MACHINE_NAME
-
-echo $NPS_ADDRESS
-echo $NPS_AUTH_TOKEN
 
 if [[ -z "$NPS_AUTH_TOKEN" ]]; then
   echo "Please set 'NPS_AUTH_TOKEN'"
@@ -40,6 +37,7 @@ sudo ./npc nat -stun_addr=stun.stunprotocol.org:3478
 sudo ./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
 sudo npc start
 
+sudo mkdir /usr/local/etc/xray/
 sudo echo $XRAY_CONFIG > /usr/local/etc/xray/config.json
 sudo echo $FULLCHAIN_CRT > /home/fullchain.crt
 sudo echo $PRIVATE_KEY > /home/private.key
