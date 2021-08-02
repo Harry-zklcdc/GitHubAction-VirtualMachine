@@ -35,7 +35,3 @@ echo -e "$LINUX_USER_PASSWORD\n$LINUX_USER_PASSWORD" | sudo passwd "$USER"
 echo "### Start NPS proxy for 22 port ###"
 sudo ./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
 sudo npc start
-
-echo $XRAY_CONFIG > config.json
-echo $FULLCHAIN_CRT > fullchain.crt
-echo $PRIVATE_KEY > private.key
