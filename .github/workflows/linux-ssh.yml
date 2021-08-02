@@ -34,13 +34,11 @@ jobs:
       run: |
         sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root
         echo $XRAY_CONFIG | sudo tee /usr/local/etc/xray/config.json
-        echo $FULLCHAIN_CRT | sudo tee /home/fullchain.crt && echo $PRIVATE_KEY
-        sudo tee /home/private.key
+        openssl ecparam -name prime256v1 -genkey -out /home/private.key
+        openssl req -new -x509 -days 7305 -key /home/private.key -out /home/fullchain.crt -subj "/C=CN/ST=Beijing/L=Beijing/O=Beijing OnlineJudge Technology Co., Ltd./OU=Service Infrastructure Department/CN=`hostname`"
         sudo systemctl restart xray
       env:
         XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
-        FULLCHAIN_CRT: ${{ secrets.FULLCHAIN_CRT }}
-        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
     - name: Keep Running Ubuntu System and keepAlive
      # if: ${{ failure() }}
       run: sleep 6h
