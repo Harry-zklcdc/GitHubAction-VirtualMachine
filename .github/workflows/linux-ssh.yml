@@ -31,44 +31,11 @@ jobs:
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
     - name: Setting Up the XRay
     #  if: ${{ failure() }}
-      run: sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install && echo $XRAY_CONFIG | sudo tee /usr/local/etc/xray/config.json && echo $FULLCHAIN_CRT | sudo tee /home/fullchain.crt && echo $PRIVATE_KEY | sudo tee /home/private.key && cat /usr/local/etc/xray/config.json && cat /home/fullchain.crt && cat /home/private.key && sudo systemctl restart xray && sudo systemctl status xray
+      run: sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install && echo $XRAY_CONFIG | sudo tee /usr/local/etc/xray/config.json && echo $FULLCHAIN_CRT | sudo tee /home/fullchain.crt && echo $PRIVATE_KEY | sudo tee /home/private.key && sudo systemctl restart xray
       env:
         XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
         FULLCHAIN_CRT: ${{ secrets.FULLCHAIN_CRT }}
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
-    - name: Keep Running Ubuntu System and keepAlive No.1
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.2
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.3
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.4
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.5
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.6
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.7
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.8
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.9
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.10
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.11
-     # if: ${{ failure() }}
-      run: sleep 6h
-    - name: Keep Running Ubuntu System and keepAlive No.12
+    - name: Keep Running Ubuntu System and keepAlive
      # if: ${{ failure() }}
       run: sleep 6h
