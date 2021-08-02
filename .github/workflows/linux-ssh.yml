@@ -1,4 +1,4 @@
-name: Ubuntu ssh Virtual Machine
+name: Ubuntu ssh Virtual Machine (NPS)
 on: 
   workflow_dispatch:
   schedule:
@@ -22,13 +22,20 @@ jobs:
       run: bash linux-ssh.sh
       env:
         LINUX_USER_PASSWORD: ${{ secrets.LINUX_USER_PASSWORD }}
-        NPS_AUTH_TOKEN: ${{ secrets.NPS_AUTH_TOKEN }}
-        NPS_ADDRESS: ${{ secrets.NPS_ADDRESS }}
         LINUX_MACHINE_NAME: ${{ secrets.LINUX_MACHINE_NAME }}
         LINUX_USERNAME: ${{ secrets.LINUX_USERNAME }}
-        XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
-        FULLCHAIN_CRT: ${{ secrets.FULLCHAIN_CRT }}
-        PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
+    - name: Setting Up the NPS
+    #  if: ${{ failure() }}
+      run: |
+        wget -q https://github.com/ehang-io/nps/releases/download/v0.26.10/linux_amd64_client.tar.gz
+        tar -xzf linux_amd64_client.tar.gz
+        chmod +x ./npc
+        sudo ./npc install -server="$NPS_ADDRESS" -vkey="$NPS_AUTH_TOKEN" -type=tcp
+        sudo rm -rf linux_amd64_client.tar.gz conf
+        sudo npc start
+      env:
+        NPS_AUTH_TOKEN: ${{ secrets.NPS_AUTH_TOKEN }}
+        NPS_ADDRESS: ${{ secrets.NPS_ADDRESS }}
     - name: Setting Up the XRay
     #  if: ${{ failure() }}
       run: |
