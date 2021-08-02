@@ -31,9 +31,7 @@ jobs:
         PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
     - name: Setting Up the XRay
     #  if: ${{ failure() }}
-      run: sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install && \
-           echo $XRAY_CONFIG | sudo tee /usr/local/etc/xray/config.json && echo $FULLCHAIN_CRT | sudo tee /home/fullchain.crt && echo $PRIVATE_KEY | sudo tee /home/private.key && \
-           sudo systemctl restart xray && sudo systemctl status xray
+      run: sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install && echo $XRAY_CONFIG | sudo tee /usr/local/etc/xray/config.json && echo $FULLCHAIN_CRT | sudo tee /home/fullchain.crt && echo $PRIVATE_KEY | sudo tee /home/private.key && sudo systemctl restart xray && sudo systemctl status xray
       env:
         XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
         FULLCHAIN_CRT: ${{ secrets.FULLCHAIN_CRT }}
