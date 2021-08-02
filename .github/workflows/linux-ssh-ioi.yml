@@ -1,0 +1,49 @@
+name: Ubuntu ssh Virtual Machine (ioi)
+on: 
+  workflow_dispatch:
+  # schedule:
+    # - cron: '0 */6 * * *'
+
+defaults:
+  run:
+    shell: bash
+  
+jobs:
+  build:
+    runs-on: ubuntu-20.04
+    steps:
+    - uses: actions/checkout@v2
+#    - name: If failed, means ok
+#      run: ./not-exist-file.sh it bloke build
+    - name: Preparing Linux Environment
+      run: sudo apt-get update
+    - name: Setting Up the Ubuntu Environment
+    #  if: ${{ failure() }}
+      run: bash linux-ssh.sh
+      env:
+        LINUX_USER_PASSWORD: ${{ secrets.LINUX_USER_PASSWORD }}
+        LINUX_MACHINE_NAME: ${{ secrets.LINUX_MACHINE_NAME }}
+        LINUX_USERNAME: ${{ secrets.LINUX_USERNAME }}
+    - name: Setting Up the XRay
+    #  if: ${{ failure() }}
+      run: |
+        sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root
+        echo $XRAY_CONFIG | sudo tee /usr/local/etc/xray/config.json
+        sudo openssl ecparam -name prime256v1 -genkey -out /home/private.key
+        sudo openssl req -new -x509 -days 7305 -key /home/private.key -out /home/fullchain.crt -subj "/C=CN/ST=Beijing/L=Beijing/O=Beijing OnlineJudge Technology Co., Ltd./OU=Service Infrastructure Department/CN=`hostname`"
+        sudo systemctl restart xray
+      env:
+        XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
+    - name: Setting Up the ioi
+    #  if: ${{ failure() }}
+      run: |
+        wget -q -O ioi https://github.com/Harry-zklcdc/ioi/blob/master/ioi_linux_x64?raw=true
+        chmod +x ./ioi
+        sudo tee command.txt <<-'EOF'
+        open tcp 22
+        open tcp 443
+        sudo nohup ./ioi > /home/ioi.log &
+        passwd=`head -n 4 /home/ioi.log | tail -n 1` && passwd=${passwd##*:} && passwd=${passwd% *}
+        curl -X PUT -d "proto=tcp&port=22&password=${str}" "127.0.0.1:10101/api/port"
+        curl -X PUT -d "proto=tcp&port=443&password=${str}" "127.0.0.1:10101/api/port"
+        
