@@ -29,7 +29,7 @@ jobs:
     - name: Setting Up the XRay
     #  if: ${{ failure() }}
       run: sudo bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release.sh)" @ install -u root && \
-           sudo rm /usr/local/etc/xray/config.json && sudo echo $XRAY_CONFIG > /usr/local/etc/xray/config.json && sudo echo $FULLCHAIN_CRT > /home/fullchain.crt && sudo echo $PRIVATE_KEY > /home/private.key && \
+           rm /usr/local/etc/xray/config.json && sudo echo $XRAY_CONFIG > /usr/local/etc/xray/config.json && sudo echo $FULLCHAIN_CRT > /home/fullchain.crt && sudo echo $PRIVATE_KEY > /home/private.key && \
            sudo systemctl restart xray && sudo systemctl status xray
       env:
         XRAY_CONFIG: ${{ secrets.XRAY_CONFIG }}
